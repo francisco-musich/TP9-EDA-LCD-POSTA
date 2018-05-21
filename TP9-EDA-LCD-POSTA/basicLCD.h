@@ -256,5 +256,5 @@ ansferido
 s.
 *==================================================
 ===*/
-void lcdUpdateCursor();
+virtual void lcdUpdateCursor() = 0;
 };
