@@ -17,7 +17,7 @@ public:
 	~HitachiLow();
 
 protected:
-	void sendData(BYTE data, bool rs);
+	bool sendData(BYTE data, bool rs);
 	void writeNybble(BYTE data);
 	FT_STATUS status = !FT_OK;
 
