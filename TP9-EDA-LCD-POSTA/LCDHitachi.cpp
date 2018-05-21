@@ -91,7 +91,7 @@ bool LCDHitachi::lcdClearToEOL()
 {
 	if (cadd < 31)	//Si el address es menor a 32 va borrando
 	{
-		bool validation;
+		bool validation= true;
 		for (int i = cadd; (i <= 31&& validation); i++)	//For desde el address actual hasta la ultima posicion
 		{
 			validation = sendData(CLEAR_CHAR, RS_WRITE); 
@@ -308,6 +308,11 @@ cursorPosition LCDHitachi::lcdGetCursorPosition()
 	respuesta.row = cadd / 16;	//me fijo en que fila estoy
 	respuesta.column = cadd % 16;	//en que columna
 	return respuesta;
+}
+
+void LCDHitachi::lcdUpdateCursor()
+{
+
 }
 
 

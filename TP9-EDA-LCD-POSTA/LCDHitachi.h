@@ -23,7 +23,7 @@ public:
 	bool lcdSetCursorPosition(const cursorPosition pos);
 	cursorPosition lcdGetCursorPosition();
 private:
-	bool iserror();
+	void lcdUpdateCursor();
 
 
 };

@@ -1,7 +1,8 @@
 #include "HitachiLow.h"
+#include"LCDHitachi.h"
 
 int main()
 {
-	HitachiLow hitachiLcd;
+	basicLCD* LCD = new LCDHitachi;
 	return 0;
 }
