@@ -42,7 +42,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -82,13 +82,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>
+      </SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\mgonz\Desktop\EDA\TP\TP9-EDA-LCD-POSTA\TP9-EDA-LCD-POSTA\i386;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Users\mgonz\Desktop\EDA\TP\TP9-EDA-LCD-POSTA\TP9-EDA-LCD-POSTA\i386;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ftd2xx.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ShowProgress>LinkVerbose</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,6 +129,22 @@
     <ClInclude Include="ftd2xx.h" />
     <ClInclude Include="General.h" />
     <ClInclude Include="HitachiLow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ftdibus.cat" />
+    <None Include="ftdibus.inf" />
+    <None Include="ftdiport.cat" />
+    <None Include="ftdiport.inf" />
+    <None Include="i386\ftbusui.dll" />
+    <None Include="i386\ftcserco.dll" />
+    <None Include="i386\ftd2xx.dll" />
+    <None Include="i386\ftdibus.sys" />
+    <None Include="i386\ftlang.dll" />
+    <None Include="i386\ftser2k.sys" />
+    <None Include="i386\ftserui2.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="i386\ftd2xx.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
