@@ -9,10 +9,10 @@ using namespace std;
 unsigned char getADD(int cadd)
 {
 	unsigned char respuesta = 0x00;
-	if (cadd > 15)	//me fijo en que fila estoy
+	if (cadd >= COLUMNA)	//me fijo en que fila estoy
 	{
-		respuesta = (respuesta | 0x40);	//fila 2 entonces meto el 0x40 necesario
-		respuesta = (respuesta | (cadd - 16)); //restando por 16 obteno el numero de columna le hago un or asi me queda en esa posicion
+		respuesta = (respuesta | OFFSET_ROW_DRAM);	//fila 2 entonces meto el 0x40 necesario
+		respuesta = (respuesta | (cadd - COLUMNA)); //restando por 16 obteno el numero de columna le hago un or asi me queda en esa posicion
 	}
 	else
 	{
@@ -26,7 +26,7 @@ unsigned char getADD(int cadd)
 LCDHitachi::LCDHitachi()
 {
 	this->cadd = 0;	//inicializo counter en 0
-	unsigned char newAddCount = getADD(cadd) | 0x80; //Fuerzo al lcd a tener ese address counter
+	lcdUpdateCursor(); //Fuerzo al lcd a tener ese address counter
 	cout << "Se ha creado el objeto LCD Hitachi" << endl;
 }
 
@@ -89,18 +89,17 @@ Luego setteo el address counter del lcd a el que originalmente tenia
 */
 bool LCDHitachi::lcdClearToEOL()
 {
-	if (cadd < 31)	//Si el address es menor a 32 va borrando
+	if (cadd < ELEMENTOS_TOTALES_AJUSTADO)	//Si el address es menor a 32 va borrando
 	{
 		bool validation= true;
-		for (int i = cadd; (i <= 31&& validation); i++)	//For desde el address actual hasta la ultima posicion
+		for (int i = cadd; (i <= ELEMENTOS_TOTALES_AJUSTADO) && (validation); i++)	//For desde el address actual hasta la ultima posicion
 		{
 			validation = sendData(CLEAR_CHAR, RS_WRITE); 
 		}
 		if (validation) //Solo vuelvo al address counter original si se enviaron todos los chars correctamente
 		{
 			cout << " CleartoEOL exitoso" << endl;
-			unsigned char addsetter = (getADD(cadd)) | 0x80;	// preparo informacion para settear address counter anterior
-			sendData(addsetter, RS_WRITE);	//settero addcount anterior al for
+			lcdUpdateCursor();
 		}
 		else {
 			cout << "CleartoEOL fallido" << endl;
@@ -121,7 +120,7 @@ Chequea que no se este en la ultima posicion. Envia el caracter deseado al lcd, 
 */
 basicLCD& LCDHitachi::operator<<(const unsigned char c)	//Nose que tendria que ir devolviendo
 {
-	if (cadd < 31)	//si estoy en los parametros imprimo
+	if (cadd < ELEMENTOS_TOTALES_AJUSTADO)	//si estoy en los parametros imprimo
 	{
 		sendData(c, RS_WRITE);
 		cadd++;	//el address counter se actualiza solo
@@ -138,13 +137,13 @@ Chequea que el string no sea mayor a 32 caracteres, si lo es se adapta. Luego im
 basicLCD& LCDHitachi::operator<<(const unsigned char* c)	//Aca asumo groseramente que lo unico que me pueden mandar son asciis
 {
 	string recieved = (const char *) c;	//Lo hago un string por que los arreglos me ponen triste :(
-	int stringIndicator = 0;
-	int stringSize = recieved.size();
-	if (stringSize > 32)	//Chequeo si el string tiene mas de 32 caracteres
+	size_t stringIndicator = 0;	//NOse si poner size_t me resuelve algo
+	size_t stringSize = recieved.size();
+	if (stringSize > ELEMENTOS_TOTALES)	//Chequeo si el string tiene mas de 32 caracteres
 	{
-		stringIndicator = stringSize - 32;	//Si tiene mas de 32 utilizo un indice corrido, sera el tamano del string menos 32(ultimos 32 caracteres)	
+		stringIndicator = stringSize - ELEMENTOS_TOTALES;	//Si tiene mas de 32 utilizo un indice corrido, sera el tamano del string menos 32(ultimos 32 caracteres)	
 	}
-	for (; cadd < 32 && (stringIndicator <= stringSize); cadd++, stringIndicator++)	//Imprimo los caracteres hasta que se acabe el string o el lugar en el lcd
+	for (; cadd < ELEMENTOS_TOTALES && (stringIndicator <= stringSize); cadd++, stringIndicator++)	//Imprimo los caracteres hasta que se acabe el string o el lugar en el lcd, no hay problema en modificar directamente el cadd
 	{
 		unsigned char infotoSend = c[stringIndicator];
 		sendData(infotoSend, RS_WRITE);
@@ -160,21 +159,12 @@ Chequea que el cursor este en la segunda fila. Le resta el tamano de la fila y s
 */
 bool LCDHitachi::lcdMoveCursorUp()
 {
-	if (cadd > 15)
+	if (cadd >= COLUMNA)
 	{
 		bool validation;
-		cadd -= 15;	//muevo el counter una fila arriba
-		unsigned char newAddCount = (getADD(cadd)) | 0x80;	//Preparo el nuevo addcount
-		validation = sendData(newAddCount, RS_WRITE);	//lo envio
-		if (validation)
-		{
-			cout << "lcdMoveCursorUp exitoso" << endl;
-		}
-		else
-		{
-			cout << "Error enviar datos (ftdi) en MoveCursorUp" << endl;
-		}
-		return validation;
+		cadd -= COLUMNA;	//muevo el counter una fila arriba
+		lcdUpdateCursor();
+		return true;
 	}
 	else
 	{
@@ -189,21 +179,12 @@ Idem a metodo anterior. La diferencia es que se fija que este en la fila superio
 */
 bool LCDHitachi::lcdMoveCursorDown()
 {
-	if (cadd <15)
+	if (cadd < COLUMNA)
 	{
 		bool validation;
-		cadd += 15;	//muevo el counter una fila arriba
-		unsigned char newAddCount = (getADD(cadd)) | 0x80;	//Setteo el nuevo addcount
-		validation = sendData(newAddCount, RS_WRITE);	//envio
-		if (validation)
-		{
-			cout << "lcdMoveCursordown exitoso" << endl;
-		}
-		else
-		{
-			cout << "Error enviar datos (ftdi) en MoveCursordown" << endl;
-		}
-		return validation;
+		cadd += COLUMNA;	//muevo el counter una fila arriba
+		lcdUpdateCursor();
+		return true;
 	}
 	else
 	{
@@ -218,21 +199,12 @@ Similar a lo anterior, solo que ahora chequeo no estar en la ultima posicion
 */
 bool LCDHitachi::lcdMoveCursorRight()
 {
-	if (cadd < 31)
+	if (cadd < ELEMENTOS_TOTALES)
 	{
 		bool validation;
 		cadd++;	//incremento en una posicion el counter
-		unsigned char newAddCount = (getADD(cadd)) | 0x80;	//Setteo nuevo address count
-		validation = sendData(newAddCount, RS_WRITE);	//Lo envio
-		if (validation)
-		{
-			cout << "lcdMoveCursorright exitoso" << endl;
-		}
-		else
-		{
-			cout << "Error enviar datos (ftdi) en MoveCursorright" << endl;
-		}
-		return validation;
+		lcdUpdateCursor();
+		return true;
 	}
 	else
 	{
@@ -250,17 +222,8 @@ bool LCDHitachi::lcdMoveCursorLeft()
 	{
 		bool validation;
 		cadd--;
-		unsigned char newAddCount = (getADD(cadd)) | 0x80;
-		validation = sendData(newAddCount, RS_WRITE);
-		if (validation)
-		{
-			cout << "lcdMoveCursorleft exitoso" << endl;
-		}
-		else
-		{
-			cout << "Error enviar datos (ftdi) en MoveCursorleft" << endl;
-		}
-		return validation;
+		lcdUpdateCursor();
+		return true;
 	}
 	else
 	{
@@ -276,21 +239,12 @@ Luego creo el cadd con esa informacion, lo transformo a hexa y lo envio al lcd
 
 bool LCDHitachi::lcdSetCursorPosition(const cursorPosition pos)
 {
-	if (pos.row < 2 && pos.column < 16)	//validacion
+	if (pos.row < FILAS && pos.column < COLUMNA)	//validacion
 	{
 		bool validation;
-		cadd = (pos.row) * 16 + pos.column;	//creacion de cadd con pos
-		unsigned char newAddCount = (getADD(cadd)) | 0x80; //transformacion hexa de cadd
-		validation = sendData(newAddCount, RS_WRITE);	//setteo nuevo address counter
-		if (validation)
-		{
-			cout << "lcdSetCursorPosition exitoso" << endl;
-		}
-		else
-		{
-			cout << "Error enviar datos (ftdi) en lcdSetCursorPosition" << endl;
-		}
-		return validation;
+		cadd = (pos.row) * COLUMNA + pos.column;	//creacion de cadd con pos
+		lcdUpdateCursor();
+		return true;
 	}
 	else
 	{
@@ -305,14 +259,15 @@ Devuelvo a partir del cadd una estructura con la posicion y filas correctas
 cursorPosition LCDHitachi::lcdGetCursorPosition()
 {
 	cursorPosition respuesta;
-	respuesta.row = cadd / 16;	//me fijo en que fila estoy
-	respuesta.column = cadd % 16;	//en que columna
+	respuesta.row = cadd / COLUMNA;	//me fijo en que fila estoy
+	respuesta.column = cadd % COLUMNA;	//en que columna
 	return respuesta;
 }
 
 void LCDHitachi::lcdUpdateCursor()
 {
-
+	unsigned char newAddCount = (getADD(cadd)) | ADDRESS_COUNT_SET_MASK; //transformacion hexa de cadd
+	sendData(newAddCount, RS_WRITE);	//setteo nuevo address counter
 }
 
 
