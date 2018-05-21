@@ -1,6 +1,7 @@
 #include "LCDHitachi.h"
 #include<ostream>
 using namespace std;
+
 /* FUNCION getADD*/
 /*
 	Funcion que transforma el cadd a un hexa para sobreescribir el adress counter
@@ -26,6 +27,7 @@ LCDHitachi::LCDHitachi()
 {
 	this->cadd = 0;	//inicializo counter en 0
 	unsigned char newAddCount = getADD(cadd) | 0x80; //Fuerzo al lcd a tener ese address counter
+	cout << "Se ha creado el objeto LCD Hitachi" << endl;
 }
 
 
@@ -42,10 +44,12 @@ bool LCDHitachi::lcdInitOk()
 	if (status == FT_OK)	//AGREGAR INIT STATUS EN EL PADRE
 	{
 		aux = true;
+		cout << "El lcd Inicializo correctamente" << endl;
 	}
 	else
 	{
 		aux = false;
+		cout << "El lcd Inicializo correctamente" << endl;
 	}
 	return aux;
 }
@@ -65,17 +69,18 @@ Envia la instruccion para limpiar la pantalla inherente al lcd hitachi
 */
 bool LCDHitachi::lcdClear()	//Limpia todo el display
 {
-	bool aux;
-	this->sendData(LCD_CLEAR, RS_WRITE);	//envio la info
-	this->cadd = 0;	//setteo el cadd en 0
-	if (status == FT_OK)
+	bool validacion;
+	validacion = sendData(LCD_CLEAR, RS_WRITE);	//envio la info
+	cadd = 0;
+	if (validacion)
 	{
-		aux = true;
+		cout << "Se ha limpiado la pantalla correctamente" << endl;
 	}
 	else
-		aux = false;
-
-	return aux;
+	{
+		cout << "Problema al limpiar la pantalla" << endl;
+	}
+	return validacion;
 }
 /*Funcion lcdCleartoEOL*/
 /*
@@ -86,20 +91,27 @@ bool LCDHitachi::lcdClearToEOL()
 {
 	if (cadd < 31)	//Si el address es menor a 32 va borrando
 	{
-		bool aux;
-		for (int i = cadd; i <= 31; i++)	//For desde el address actual hasta la ultima posicion
+		bool validation;
+		for (int i = cadd; (i <= 31&& validation); i++)	//For desde el address actual hasta la ultima posicion
 		{
-			sendData(CLEAR_CHAR, RS_WRITE); 
+			validation = sendData(CLEAR_CHAR, RS_WRITE); 
 		}
-		unsigned char addsetter = (getADD(cadd))|0x80;	// preparo informacion para settear address counter anterior
-		sendData(addsetter, RS_WRITE);	//settero addcount anterior al for
+		if (validation) //Solo vuelvo al address counter original si se enviaron todos los chars correctamente
+		{
+			cout << " CleartoEOL exitoso" << endl;
+			unsigned char addsetter = (getADD(cadd)) | 0x80;	// preparo informacion para settear address counter anterior
+			sendData(addsetter, RS_WRITE);	//settero addcount anterior al for
+		}
+		else {
+			cout << "CleartoEOL fallido" << endl;
+		}
 
 
-
-		return aux;
+		return validation;
 	}
 	else 
 	{
+		cout << "CleartoEOL fallido, cursor fuera de rango" << endl;
 		return false;
 	}
 }
@@ -113,6 +125,9 @@ basicLCD& LCDHitachi::operator<<(const unsigned char c)	//Nose que tendria que i
 	{
 		sendData(c, RS_WRITE);
 		cadd++;	//el address counter se actualiza solo
+	}
+	else {
+		cout << "Cursor fuera de rango" << endl;
 	}
 	return *this;
 }
@@ -147,13 +162,23 @@ bool LCDHitachi::lcdMoveCursorUp()
 {
 	if (cadd > 15)
 	{
+		bool validation;
 		cadd -= 15;	//muevo el counter una fila arriba
 		unsigned char newAddCount = (getADD(cadd)) | 0x80;	//Preparo el nuevo addcount
-		sendData(newAddCount, RS_WRITE);	//lo envio
-		return true;
+		validation = sendData(newAddCount, RS_WRITE);	//lo envio
+		if (validation)
+		{
+			cout << "lcdMoveCursorUp exitoso" << endl;
+		}
+		else
+		{
+			cout << "Error enviar datos (ftdi) en MoveCursorUp" << endl;
+		}
+		return validation;
 	}
 	else
 	{
+		cout << "No se puede mover el cursor para arriba, se esta en la primera fila" << endl;
 		return false;
 	}
 
@@ -166,13 +191,23 @@ bool LCDHitachi::lcdMoveCursorDown()
 {
 	if (cadd <15)
 	{
+		bool validation;
 		cadd += 15;	//muevo el counter una fila arriba
 		unsigned char newAddCount = (getADD(cadd)) | 0x80;	//Setteo el nuevo addcount
-		sendData(newAddCount, RS_WRITE);	//envio
-		return true;
+		validation = sendData(newAddCount, RS_WRITE);	//envio
+		if (validation)
+		{
+			cout << "lcdMoveCursordown exitoso" << endl;
+		}
+		else
+		{
+			cout << "Error enviar datos (ftdi) en MoveCursordown" << endl;
+		}
+		return validation;
 	}
 	else
 	{
+		cout << "No se puede mover el cursor para abajo, se esta en la ultima fila" << endl;
 		return false;
 	}
 
@@ -185,13 +220,23 @@ bool LCDHitachi::lcdMoveCursorRight()
 {
 	if (cadd < 31)
 	{
+		bool validation;
 		cadd++;	//incremento en una posicion el counter
 		unsigned char newAddCount = (getADD(cadd)) | 0x80;	//Setteo nuevo address count
-		sendData(newAddCount, RS_WRITE);	//Lo envio
-		return true;
+		validation = sendData(newAddCount, RS_WRITE);	//Lo envio
+		if (validation)
+		{
+			cout << "lcdMoveCursorright exitoso" << endl;
+		}
+		else
+		{
+			cout << "Error enviar datos (ftdi) en MoveCursorright" << endl;
+		}
+		return validation;
 	}
 	else
 	{
+		cout << "No se puede mover el cursor para la derecha, se esta en la ultima posicion" << endl;
 		return false;
 	}
 }
@@ -203,13 +248,23 @@ bool LCDHitachi::lcdMoveCursorLeft()
 {
 	if (cadd > 0)
 	{
+		bool validation;
 		cadd--;
 		unsigned char newAddCount = (getADD(cadd)) | 0x80;
-		sendData(newAddCount, RS_WRITE);
-		return true;
+		validation = sendData(newAddCount, RS_WRITE);
+		if (validation)
+		{
+			cout << "lcdMoveCursorleft exitoso" << endl;
+		}
+		else
+		{
+			cout << "Error enviar datos (ftdi) en MoveCursorleft" << endl;
+		}
+		return validation;
 	}
 	else
 	{
+		cout << "No se puede mover el cursor para la izquierda, se esta en la primera posicion" << endl;
 		return false;
 	}
 }
@@ -221,15 +276,25 @@ Luego creo el cadd con esa informacion, lo transformo a hexa y lo envio al lcd
 
 bool LCDHitachi::lcdSetCursorPosition(const cursorPosition pos)
 {
-	if (pos.row < 2 && pos.column < 32)	//validacion
+	if (pos.row < 2 && pos.column < 16)	//validacion
 	{
+		bool validation;
 		cadd = (pos.row) * 16 + pos.column;	//creacion de cadd con pos
 		unsigned char newAddCount = (getADD(cadd)) | 0x80; //transformacion hexa de cadd
-		sendData(newAddCount, RS_WRITE);	//setteo nuevo address counter
-		return true;
+		validation = sendData(newAddCount, RS_WRITE);	//setteo nuevo address counter
+		if (validation)
+		{
+			cout << "lcdSetCursorPosition exitoso" << endl;
+		}
+		else
+		{
+			cout << "Error enviar datos (ftdi) en lcdSetCursorPosition" << endl;
+		}
+		return validation;
 	}
 	else
 	{
+		cout << "Parametros enviados a lcdSetCursorPosition incorrectos. Row tiene que ser<2 y Column < 16 " << endl;
 		return false;
 	}
 }
