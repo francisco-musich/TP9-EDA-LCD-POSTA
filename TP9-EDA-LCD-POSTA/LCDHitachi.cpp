@@ -25,7 +25,7 @@ unsigned char getADD(int cadd)
 
 LCDHitachi::LCDHitachi()
 {
-	this->cadd = 0;	//inicializo counter en 0
+	this->cadd = 1;	//inicializo counter en 1, por consigna, lel nose
 	lcdUpdateCursor(); //Fuerzo al lcd a tener ese address counter
 	cout << "Se ha creado el objeto LCD Hitachi" << endl;
 }
@@ -71,7 +71,8 @@ bool LCDHitachi::lcdClear()	//Limpia todo el display
 {
 	bool validacion;
 	validacion = sendData(LCD_CLEAR, RS_WRITE);	//envio la info
-	cadd = 0;
+	cadd = 1;	//APunta siempre al siguiente no idea
+	lcdUpdateCursor();	//Atucalio el cursor
 	if (validacion)
 	{
 		cout << "Se ha limpiado la pantalla correctamente" << endl;
@@ -266,7 +267,7 @@ cursorPosition LCDHitachi::lcdGetCursorPosition()
 
 void LCDHitachi::lcdUpdateCursor()
 {
-	unsigned char newAddCount = (getADD(cadd)) | ADDRESS_COUNT_SET_MASK; //transformacion hexa de cadd
+	unsigned char newAddCount = (getADD(cadd-1)) | ADDRESS_COUNT_SET_MASK; //transformacion hexa de cadd
 	sendData(newAddCount, RS_WRITE);	//setteo nuevo address counter
 }
 
