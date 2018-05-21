@@ -1,4 +1,6 @@
 #include "LCDHitachi.h"
+#include<ostream>
+using namespace std;
 /* FUNCION getADD*/
 /*
 	Funcion que transforma el cadd a un hexa para sobreescribir el adress counter
@@ -79,17 +81,41 @@ bool LCDHitachi::lcdClearToEOL()
 		return false;
 	}
 }
-
+/*Sobrecarga operador <<(para un char)*/
+/*
+Chequea que no se este en la ultima posicion. Envia el caracter deseado al lcd, incrementa el contador interno, devuelve una referencia a si mismo
+*/
 basicLCD& LCDHitachi::operator<<(const unsigned char c)	//Nose que tendria que ir devolviendo
 {
-	if (cadd < 31)
+	if (cadd < 31)	//si estoy en los parametros imprimo
 	{
 		sendData(c, RS_WRITE);
-		cadd++;
+		cadd++;	//el address counter se actualiza solo
 	}
+	return *this;
+}
+/*Sobrecarga operador <<(para un string)*/
+/*
+Chequea que el string no sea mayor a 32 caracteres, si lo es se adapta. Luego imprime hasta que se acabe el display o hasta que se acabe el string
+*/
+basicLCD& LCDHitachi::operator<<(const unsigned char* c)	//Aca asumo groseramente que lo unico que me pueden mandar son asciis
+{
+	string recieved = (const char *) c;	//Lo hago un string por que los arreglos me ponen triste :(
+	int stringIndicator = 0;
+	int stringSize = recieved.size();
+	if (stringSize > 32)	//Chequeo si el string tiene mas de 32 caracteres
+	{
+		stringIndicator = stringSize - 32;	//Si tiene mas de 32 utilizo un indice corrido, sera el tamano del string menos 32(ultimos 32 caracteres)	
+	}
+	for (; cadd < 32 && (stringIndicator <= stringSize); cadd++, stringIndicator++)	//Imprimo los caracteres hasta que se acabe el string o el lugar en el lcd
+	{
+		unsigned char infotoSend = c[stringIndicator];
+		sendData(infotoSend, RS_WRITE);
+	}
+	return *this;
 }
 
-//FALTA EL OTRO OPERADOR DE INSERCION
+
 
 /*Funcion lcdMoveCursorUp*/
 /*

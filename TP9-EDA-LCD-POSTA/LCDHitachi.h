@@ -1,6 +1,7 @@
 #pragma once
 #include"basicLCD.h"
 #include "HitachiLow.h"
+
 class LCDHitachi: public basicLCD, public HitachiLow
 {
 public:
