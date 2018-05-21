@@ -36,7 +36,16 @@ LCDHitachi::~LCDHitachi()
 */
 bool LCDHitachi::lcdInitOk()
 {
-	return this->initstatus;	//AGREGAR INIT STATUS EN EL PADRE
+	bool aux;
+	if (status == FT_OK)	//AGREGAR INIT STATUS EN EL PADRE
+	{
+		aux = true;
+	}
+	else
+	{
+		aux = false;
+	}
+	return aux;
 }
 /*Funcion lcdGetErroe*/
 /*
@@ -44,7 +53,7 @@ Se fija en un dato miembro del padre cual es el error de inicialiacion
 */
 FT_STATUS LCDHitachi::lcdGetError()
 {
-	return this->errorInit;		//Agregar error en el padre
+	return status;
 }
 
 /*Funcion lcdClear*/
@@ -52,10 +61,19 @@ FT_STATUS LCDHitachi::lcdGetError()
 Envia la instruccion para limpiar la pantalla inherente al lcd hitachi
 
 */
-bool LCDHitachi::lcdClear()	//Limpia todo el display, AGREGAR VALIDACION
+bool LCDHitachi::lcdClear()	//Limpia todo el display
 {
+	bool aux;
 	this->sendData(LCD_CLEAR, RS_WRITE);	//envio la info
 	this->cadd = 0;	//setteo el cadd en 0
+	if (status == FT_OK)
+	{
+		aux = true;
+	}
+	else
+		aux = false;
+
+	return aux;
 }
 /*Funcion lcdCleartoEOL*/
 /*
