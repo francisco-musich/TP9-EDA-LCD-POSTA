@@ -60,15 +60,27 @@ void HitachiLow::sendDataInit(BYTE data, bool _rs)
 	writeNybble(temp);
 }
 
-void HitachiLow::sendData(BYTE data, bool _rs)
+bool HitachiLow::sendData(BYTE data, bool _rs)
 {
+	bool aux;
 	BYTE rs = (_rs) ? LCD_RS_DR : LCD_RS_IR;
 	BYTE temp = data & 0xF0;
 	temp = temp | rs;
 	writeNybble(temp);
-	temp = ((data & 0x0F) << 4) & 0xF0;
-	temp = temp | rs;
-	writeNybble(temp);
+	if (status = FT_OK)
+	{
+		temp = ((data & 0x0F) << 4) & 0xF0;
+		temp = temp | rs;
+		writeNybble(temp);
+		if (status = FT_OK)
+			aux = true;
+		else
+			aux = false;
+	}
+	else
+		aux = false;
+
+	return aux;
 }
 
 void HitachiLow::writeNybble(BYTE data)
