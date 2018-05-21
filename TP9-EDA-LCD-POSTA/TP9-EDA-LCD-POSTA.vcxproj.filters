@@ -27,6 +27,9 @@
     <ClCompile Include="HitachiLow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="basicLCD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HitachiLow.h">
@@ -37,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="ftd2xx.h">
       <Filter>FTDI</Filter>
+    </ClInclude>
+    <ClInclude Include="basicLCD.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
