@@ -40,12 +40,12 @@ HitachiLow::~HitachiLow()
 
 void HitachiLow::init()
 {
-	writeNybble(LCD_FUNCTION8);
+	sendDataInit(LCD_FUNCTION8, IR);
 	std::this_thread::sleep_for(std::chrono::milliseconds(4));
-	writeNybble(LCD_FUNCTION8);
+	sendDataInit(LCD_FUNCTION8, IR);
 	std::this_thread::sleep_for(std::chrono::microseconds(100));
-	writeNybble(LCD_FUNCTION8);
-	writeNybble(LCD_FUNCTION4);
+	sendDataInit(LCD_FUNCTION8, IR);
+	sendDataInit(LCD_FUNCTION4, IR);
 	sendData(LCD_FUNCTION4, IR);
 	sendData(LCD_DISPLAY_AOFF, IR);
 	sendData(LCD_CLEAR, IR);
@@ -56,9 +56,6 @@ void HitachiLow::sendDataInit(BYTE data, bool _rs)
 {
 	BYTE rs = (_rs) ? LCD_RS_DR : LCD_RS_IR;
 	BYTE temp = data & 0xF0;
-	temp = temp | rs;
-	writeNybble(temp);
-	temp = ((data & 0x0F) << 4) & 0xF0;
 	temp = temp | rs;
 	writeNybble(temp);
 }
@@ -80,13 +77,25 @@ void HitachiLow::writeNybble(BYTE data)
 	BYTE temp = 0x00;
 	//Bajar enable
 	temp = data & NOT_LCD_E;
-	FT_Write(lcdHandle, &temp, sizeof(temp), &bytesSent);
-	std::this_thread::sleep_for(std::chrono::microseconds(500));
-	//Subir en enable
-	temp = data | LCD_E;
-	FT_Write(lcdHandle, &temp, sizeof(temp), &bytesSent);
-	std::this_thread::sleep_for(std::chrono::milliseconds(3));
-	//Bajar enable
-	temp = data & NOT_LCD_E;
-	FT_Write(lcdHandle, &temp, sizeof(temp), &bytesSent);
+	if (FT_Write(lcdHandle, &temp, sizeof(temp), &bytesSent) == FT_OK)
+	{
+		std::this_thread::sleep_for(std::chrono::microseconds(500));
+		//Subir en enable
+		temp = data | LCD_E;
+		if (FT_Write(lcdHandle, &temp, sizeof(temp), &bytesSent) == FT_OK)
+		{
+			std::this_thread::sleep_for(std::chrono::milliseconds(3));
+			//Bajar enable
+			temp = data & NOT_LCD_E;
+			if (FT_Write(lcdHandle, &temp, sizeof(temp), &bytesSent) == FT_OK)
+			{
+			}
+			else
+				status = !FT_OK;
+		}
+		else
+			status = !FT_OK;
+	}
+	else
+		status = !FT_OK;
 }

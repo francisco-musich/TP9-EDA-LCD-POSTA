@@ -1,4 +1,7 @@
 #pragma once
+
+#include "ftd2xx.h"
+
 struct
 cursorPosition
 {
