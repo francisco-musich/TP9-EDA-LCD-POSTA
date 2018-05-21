@@ -122,6 +122,7 @@
   <ItemGroup>
     <ClCompile Include="basicLCD.cpp" />
     <ClCompile Include="HitachiLow.cpp" />
+    <ClCompile Include="LCDHitachi.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +130,7 @@
     <ClInclude Include="ftd2xx.h" />
     <ClInclude Include="General.h" />
     <ClInclude Include="HitachiLow.h" />
+    <ClInclude Include="LCDHitachi.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
