@@ -84,7 +84,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\mgonz\Desktop\EDA\TP\TP9-EDA-LCD-POSTA\TP9-EDA-LCD-POSTA\i386;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\Users\mgonz\Desktop\EDA\TP\TP9-EDA-LCD-POSTA\TP9-EDA-LCD-POSTA\i386;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ftd2xx.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -115,12 +120,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="basicLCD.cpp" />
     <ClCompile Include="HitachiLow.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="basicLCD.h" />
+    <ClInclude Include="ftd2xx.h" />
     <ClInclude Include="General.h" />
     <ClInclude Include="HitachiLow.h" />
   </ItemGroup>

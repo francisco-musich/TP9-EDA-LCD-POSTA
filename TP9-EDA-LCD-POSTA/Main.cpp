@@ -1,7 +1,7 @@
 #include "HitachiLow.h"
 
-void main()
+int main()
 {
 	HitachiLow hitachiLcd;
-	//hola git
+	return 0;
 }
