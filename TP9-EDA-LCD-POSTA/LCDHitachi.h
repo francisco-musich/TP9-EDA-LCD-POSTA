@@ -8,9 +8,9 @@ public:
 	LCDHitachi();
 
 	~LCDHitachi();
-
+	/*Sobreescribir funciones virtuales*/
+	/*Descripicion abstracta en clase abstracta, escpecifica en el cpp*/
 	bool lcdInitOk();
-
 	FT_STATUS lcdGetError();
 	bool lcdClear();
 	bool lcdClearToEOL();
@@ -22,6 +22,8 @@ public:
 	bool lcdMoveCursorLeft();
 	bool lcdSetCursorPosition(const cursorPosition pos);
 	cursorPosition lcdGetCursorPosition();
+private:
+	bool iserror();
 
 
 };

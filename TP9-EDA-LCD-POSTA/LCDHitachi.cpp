@@ -84,15 +84,19 @@ Luego setteo el address counter del lcd a el que originalmente tenia
 */
 bool LCDHitachi::lcdClearToEOL()
 {
-	if (cadd < 31)	//Si el address es menor a 16 va borrando
+	if (cadd < 31)	//Si el address es menor a 32 va borrando
 	{
+		bool aux;
 		for (int i = cadd; i <= 31; i++)	//For desde el address actual hasta la ultima posicion
 		{
-			sendData(CLEAR_CHAR, RS_WRITE);
+			sendData(CLEAR_CHAR, RS_WRITE); 
 		}
 		unsigned char addsetter = (getADD(cadd))|0x80;	// preparo informacion para settear address counter anterior
 		sendData(addsetter, RS_WRITE);	//settero addcount anterior al for
-		return true;
+
+
+
+		return aux;
 	}
 	else 
 	{
