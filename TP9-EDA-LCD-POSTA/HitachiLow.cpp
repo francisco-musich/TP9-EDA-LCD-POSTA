@@ -67,12 +67,12 @@ bool HitachiLow::sendData(BYTE data, bool _rs)
 	BYTE temp = data & 0xF0;
 	temp = temp | rs;
 	writeNybble(temp);
-	if (status = FT_OK)
+	if (status == FT_OK)
 	{
 		temp = ((data & 0x0F) << 4) & 0xF0;
 		temp = temp | rs;
 		writeNybble(temp);
-		if (status = FT_OK)
+		if (status == FT_OK)
 			aux = true;
 		else
 			aux = false;

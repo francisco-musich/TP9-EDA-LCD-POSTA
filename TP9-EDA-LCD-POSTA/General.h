@@ -5,8 +5,8 @@ typedef unsigned char BYTE;
 typedef unsigned long DWORD;
 
 //Pedido por la catedra
-#define MY_LCD_DESCRIPTION "EDA LCD GRUPO 5"
-#define CONNECTING_TIME 5 //in seconds
+#define MY_LCD_DESCRIPTION "EDA LCD 5 B"
+#define CONNECTING_TIME 10 //in seconds
 
 //Rs defs
 #define DR true		//Data
@@ -63,7 +63,7 @@ typedef unsigned long DWORD;
 #define LCD_DISPLAY  0x0F
 #define LCD_FUNCTION8 0x34
 #define LCD_FUNCTION4 0x24
-#define LCD_DISPLAY_AOFF 0x08
+#define LCD_DISPLAY_AOFF 0x0C
 #define LCD_ENTRY 0x07
 
 //Definiciones para impresion de pantalla

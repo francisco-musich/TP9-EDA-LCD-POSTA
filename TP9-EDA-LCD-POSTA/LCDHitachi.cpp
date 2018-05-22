@@ -123,7 +123,7 @@ basicLCD& LCDHitachi::operator<<(const unsigned char c)	//Nose que tendria que i
 {
 	if (cadd < ELEMENTOS_TOTALES_AJUSTADO)	//si estoy en los parametros imprimo
 	{
-		sendData(c, RS_WRITE);
+		sendData(c, DR);
 		cadd++;	//el address counter se actualiza solo
 	}
 	else {
