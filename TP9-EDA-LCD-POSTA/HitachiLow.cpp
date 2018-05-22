@@ -41,15 +41,56 @@ HitachiLow::~HitachiLow()
 void HitachiLow::init()
 {
 	sendDataInit(LCD_FUNCTION8, IR);
-	std::this_thread::sleep_for(std::chrono::milliseconds(4));
-	sendDataInit(LCD_FUNCTION8, IR);
-	std::this_thread::sleep_for(std::chrono::microseconds(100));
-	sendDataInit(LCD_FUNCTION8, IR);
-	sendDataInit(LCD_FUNCTION4, IR);
-	sendData(LCD_FUNCTION4, IR);
-	sendData(LCD_DISPLAY_AOFF, IR);
-	sendData(LCD_CLEAR, IR);
-	sendData(LCD_ENTRY, IR);
+	if (status == FT_OK)
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(4));
+		sendDataInit(LCD_FUNCTION8, IR);
+		if (status == FT_OK)
+		{
+			std::this_thread::sleep_for(std::chrono::microseconds(100));
+			sendDataInit(LCD_FUNCTION8, IR);
+			if (status == FT_OK)
+			{
+				sendDataInit(LCD_FUNCTION4, IR);
+				if (status == FT_OK)
+				{
+					sendData(LCD_FUNCTION4, IR);
+					if (status == FT_OK)
+					{
+						sendData(LCD_DISPLAY_AOFF, IR);
+						if (status == FT_OK)
+						{
+							sendData(LCD_CLEAR, IR);
+							if (status == FT_OK)
+							{
+								sendData(LCD_ENTRY, IR);
+								if (status == FT_OK)
+								{
+
+								}
+								else
+									printf("Couldn't configure LCD\n");
+							}
+							else
+								printf("Couldn't configure LCD\n");
+						}
+						else
+							printf("Couldn't configure LCD\n");
+					}
+					else
+						printf("Couldn't configure LCD\n");
+				}
+				else
+					printf("Couldn't configure LCD\n");
+			}
+			else
+				printf("Couldn't configure LCD\n");
+		}
+		else
+			printf("Couldn't configure LCD\n");
+	}
+	else
+		printf("Couldn't configure LCD\n");
 }
 
 void HitachiLow::sendDataInit(BYTE data, bool _rs)

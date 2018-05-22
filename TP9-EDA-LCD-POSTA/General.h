@@ -5,7 +5,7 @@ typedef unsigned char BYTE;
 typedef unsigned long DWORD;
 
 //Pedido por la catedra
-#define MY_LCD_DESCRIPTION "EDA LCD GRUPO 5"
+#define MY_LCD_DESCRIPTION "EDA LCD 5 B"
 #define CONNECTING_TIME 5 //in seconds
 
 //Rs defs

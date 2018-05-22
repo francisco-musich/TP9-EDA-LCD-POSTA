@@ -41,5 +41,8 @@
     <ClInclude Include="LCDHitachi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ftd2xx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
