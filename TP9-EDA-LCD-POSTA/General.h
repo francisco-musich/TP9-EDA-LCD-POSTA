@@ -63,7 +63,7 @@ typedef unsigned long DWORD;
 #define LCD_DISPLAY  0x0F
 #define LCD_FUNCTION8 0x34
 #define LCD_FUNCTION4 0x24
-#define LCD_DISPLAY_AOFF 0x0C
+#define LCD_DISPLAY_AOFF 0x0F
 #define LCD_ENTRY 0x07
 
 //Definiciones para impresion de pantalla

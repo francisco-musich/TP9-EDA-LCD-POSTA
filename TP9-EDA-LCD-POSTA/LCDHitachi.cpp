@@ -70,7 +70,7 @@ Envia la instruccion para limpiar la pantalla inherente al lcd hitachi
 bool LCDHitachi::lcdClear()	//Limpia todo el display
 {
 	bool validacion;
-	validacion = sendData(LCD_CLEAR, RS_WRITE);	//envio la info
+	validacion = sendData(LCD_CLEAR, IR);	//envio la info
 	cadd = 1;	//APunta siempre al siguiente no idea
 	lcdUpdateCursor();	//Atucalio el cursor
 	if (validacion)
@@ -125,6 +125,7 @@ basicLCD& LCDHitachi::operator<<(const unsigned char c)	//Nose que tendria que i
 	{
 		sendData(c, DR);
 		cadd++;	//el address counter se actualiza solo
+		lcdUpdateCursor();
 	}
 	else {
 		cout << "Cursor fuera de rango" << endl;
@@ -263,7 +264,7 @@ cursorPosition LCDHitachi::lcdGetCursorPosition()
 void LCDHitachi::lcdUpdateCursor()
 {
 	unsigned char newAddCount = (getADD(cadd-1)) | ADDRESS_COUNT_SET_MASK; //transformacion hexa de cadd
-	sendData(newAddCount, RS_WRITE);	//setteo nuevo address counter
+	sendData(newAddCount, IR);	//setteo nuevo address counter
 }
 
 

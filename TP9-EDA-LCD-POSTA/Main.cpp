@@ -11,7 +11,9 @@ int main()
 	*LCD << 'b';
 	*LCD << 'C';
 	LCD->lcdClear();
+	LCD->lcdMoveCursorRight();
 	LCD->lcdMoveCursorDown();
+	LCD->lcdMoveCursorUp();
 	LCD->lcdGetCursorPosition();
 	getchar();
 	return 0;
