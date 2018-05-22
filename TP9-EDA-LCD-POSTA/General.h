@@ -70,4 +70,11 @@ typedef unsigned long DWORD;
 //Definiciones para impresion de pantalla
 #define RS_WRITE 0
 #define CLEAR_CHAR 0x20
+#define COLUMNA 16
+#define FILAS 2
+#define OFFSET_ROW_DRAM 0x40
+#define ADDRESS_COUNT_SET_MASK 0x80
+#define ELEMENTOS_TOTALES (COLUMNA*FILAS)
+#define ELEMENTOS_TOTALES_AJUSTADO ((COLUMNA*FILAS)-1)	//Le resto el 1 por que el 0 tambien es un elemento
+
 
