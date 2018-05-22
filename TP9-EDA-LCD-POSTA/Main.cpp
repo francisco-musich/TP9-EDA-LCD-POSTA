@@ -1,9 +1,15 @@
 #include"LCDHitachi.h"
+#include <stdlib.h>
 #include <cstdio>
 #include <iostream>
 #include <string>
 #include <sstream>
+
 using namespace std;
+
+void writeMenu(void);
+
+
 int main()
 {
 	basicLCD* LCD = new LCDHitachi;
@@ -15,14 +21,20 @@ int main()
 		string input = "";
 		bool run = true;
 
+		cout << "" << endl;
+		cout << "Presione enter para comenzar el programa" << endl;
+
+		getchar();
+		system("cls");
+
 		// How to get a string/sentence with spaces
-		cout << "Bienvenido al Controlador del LCD" << endl << "Introduzca el string deseado. Las acciones disponible son las siguientes" << endl;
-		cout << "Seguido de un '`'" << endl << "L= mueve cursor izquierda" << endl << "D=Derecha " << endl << "U= Arriba " << endl << "D= Down " << endl << "Cl= CLear " << endl << " ClEOL = Clear to EOL " << endl;
-		cout << "CurPos = imprime la fila y columna actual de cursor" << endl << "Exit = Termina el programa" << endl;
+		
+
 		while (run)
 		{
+			writeMenu();
 			getline(cin, input);
-
+			system("cls");
 			if (input == "`R"||input == "`r")
 			{
 				LCD->lcdMoveCursorRight();
@@ -77,4 +89,14 @@ cout << "EL programa ha finalizado, oprima enter para salir" << endl;
 	getchar();
 	delete LCD;
 	return 0;
+}
+
+
+void writeMenu()
+{
+	cout << "Bienvenido al Controlador del LCD" << endl << "Introduzca el string deseado. Las acciones disponible son las siguientes" << endl;
+	cout << "Seguido de un '`'" << endl << "L= mueve cursor izquierda" << endl << "D=Derecha " << endl << "U= Arriba " << endl << "D= Down " << endl << "Cl= CLear " << endl << "ClEOL = Clear to EOL " << endl;
+	cout << "CurPos = imprime la fila y columna actual de cursor" << endl << "Exit = Termina el programa" << endl;
+	cout << "" << endl;
+	cout << "Usted va a enviar:" << endl;
 }
