@@ -162,7 +162,6 @@ bool LCDHitachi::lcdMoveCursorUp()
 {
 	if (cadd >= COLUMNA)
 	{
-		bool validation;
 		cadd -= COLUMNA;	//muevo el counter una fila arriba
 		lcdUpdateCursor();
 		return true;
@@ -182,7 +181,6 @@ bool LCDHitachi::lcdMoveCursorDown()
 {
 	if (cadd < COLUMNA)
 	{
-		bool validation;
 		cadd += COLUMNA;	//muevo el counter una fila arriba
 		lcdUpdateCursor();
 		return true;
@@ -202,7 +200,6 @@ bool LCDHitachi::lcdMoveCursorRight()
 {
 	if (cadd < ELEMENTOS_TOTALES)
 	{
-		bool validation;
 		cadd++;	//incremento en una posicion el counter
 		lcdUpdateCursor();
 		return true;
@@ -221,7 +218,6 @@ bool LCDHitachi::lcdMoveCursorLeft()
 {
 	if (cadd > 0)
 	{
-		bool validation;
 		cadd--;
 		lcdUpdateCursor();
 		return true;
@@ -242,7 +238,6 @@ bool LCDHitachi::lcdSetCursorPosition(const cursorPosition pos)
 {
 	if (pos.row < FILAS && pos.column < COLUMNA)	//validacion
 	{
-		bool validation;
 		cadd = (pos.row) * COLUMNA + pos.column;	//creacion de cadd con pos
 		lcdUpdateCursor();
 		return true;

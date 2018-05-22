@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="FTDI">
-      <UniqueIdentifier>{ac1baab1-90b8-4d6d-9330-4c10b2e3dcd7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FTDI\i386">
-      <UniqueIdentifier>{2b5708de-833f-441a-9e20-dd152b4227e5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -47,48 +41,5 @@
     <ClInclude Include="LCDHitachi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ftd2xx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ftdibus.cat">
-      <Filter>FTDI</Filter>
-    </None>
-    <None Include="ftdibus.inf">
-      <Filter>FTDI</Filter>
-    </None>
-    <None Include="ftdiport.cat">
-      <Filter>FTDI</Filter>
-    </None>
-    <None Include="ftdiport.inf">
-      <Filter>FTDI</Filter>
-    </None>
-    <None Include="i386\ftbusui.dll">
-      <Filter>FTDI\i386</Filter>
-    </None>
-    <None Include="i386\ftcserco.dll">
-      <Filter>FTDI\i386</Filter>
-    </None>
-    <None Include="i386\ftd2xx.dll">
-      <Filter>FTDI\i386</Filter>
-    </None>
-    <None Include="i386\ftdibus.sys">
-      <Filter>FTDI\i386</Filter>
-    </None>
-    <None Include="i386\ftlang.dll">
-      <Filter>FTDI\i386</Filter>
-    </None>
-    <None Include="i386\ftser2k.sys">
-      <Filter>FTDI\i386</Filter>
-    </None>
-    <None Include="i386\ftserui2.dll">
-      <Filter>FTDI\i386</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="i386\ftd2xx.lib">
-      <Filter>FTDI\i386</Filter>
-    </Library>
   </ItemGroup>
 </Project>
