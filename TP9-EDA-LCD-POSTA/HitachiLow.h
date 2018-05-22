@@ -7,8 +7,8 @@
 #include <windows.h>
 #include <thread>
 #include <stdlib.h>
-#include "ftd2xx.h"
 #include "General.h"
+#include "ftd2xx.h"
 
 class HitachiLow
 {

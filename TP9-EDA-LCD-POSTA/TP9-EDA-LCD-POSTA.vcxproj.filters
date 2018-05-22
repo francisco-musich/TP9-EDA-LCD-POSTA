@@ -41,13 +41,13 @@
     <ClInclude Include="General.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ftd2xx.h">
-      <Filter>FTDI</Filter>
-    </ClInclude>
     <ClInclude Include="basicLCD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LCDHitachi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ftd2xx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

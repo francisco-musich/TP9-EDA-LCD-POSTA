@@ -139,7 +139,7 @@ basicLCD& LCDHitachi::operator<<(const unsigned char* c)	//Aca asumo groserament
 {
 	string recieved = (const char *) c;	//Lo hago un string por que los arreglos me ponen triste :(
 	int stringIndicator = 0;
-	int stringSize = recieved.size();
+	int stringSize = (int)(recieved.length());
 	if (stringSize > 32)	//Chequeo si el string tiene mas de 32 caracteres
 	{
 		stringIndicator = stringSize - 32;	//Si tiene mas de 32 utilizo un indice corrido, sera el tamano del string menos 32(ultimos 32 caracteres)	
