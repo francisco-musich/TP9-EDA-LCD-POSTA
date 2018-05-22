@@ -7,7 +7,6 @@ typedef unsigned long DWORD;
 //Pedido por la catedra
 #define MY_LCD_DESCRIPTION "EDA LCD GRUPO 5"
 #define CONNECTING_TIME 5 //in seconds
-#define FTD2XX_EXPORTS
 
 //Rs defs
 #define DR true		//Data

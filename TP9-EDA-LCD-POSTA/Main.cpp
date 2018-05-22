@@ -1,4 +1,3 @@
-#include "HitachiLow.h"
 #include"LCDHitachi.h"
 #include <cstdio>
 

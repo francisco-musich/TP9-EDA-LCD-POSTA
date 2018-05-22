@@ -8,6 +8,7 @@
 #include <thread>
 #include <stdlib.h>
 #include "General.h"
+#define FTD2XX_EXPORTS
 #include "ftd2xx.h"
 
 class HitachiLow
