@@ -69,33 +69,42 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LibraryPath>C:\Users\mgonz\Desktop\EDA\TP\TP9-EDA-LCD-POSTA\TP9-EDA-LCD-POSTA\CDM v2.12.28 WHQL Certified\i386;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>C:\Users\mgonz\Desktop\EDA\TP\TP9-EDA-LCD-POSTA\TP9-EDA-LCD-POSTA\FTDI\i386;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\mgonz\Desktop\EDA\TP\TP9-EDA-LCD-POSTA\TP9-EDA-LCD-POSTA\FTDI\i386;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\mgonz\Desktop\EDA\TP\TP9-EDA-LCD-POSTA\TP9-EDA-LCD-POSTA\FTDI\i386;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ftd2xx.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>
-      </SDLCheck>
+      <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\mgonz\Desktop\EDA\TP\TP9-EDA-LCD-POSTA\TP9-EDA-LCD-POSTA\i386;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\mgonz\Desktop\EDA\TP\TP9-EDA-LCD-POSTA\TP9-EDA-LCD-POSTA\CDM v2.12.28 WHQL Certified;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\mgonz\Desktop\EDA\TP\TP9-EDA-LCD-POSTA\TP9-EDA-LCD-POSTA\i386;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\mgonz\Desktop\EDA\TP\TP9-EDA-LCD-POSTA\TP9-EDA-LCD-POSTA\CDM v2.12.28 WHQL Certified\i386;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ftd2xx.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>LinkVerbose</ShowProgress>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -133,26 +142,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basicLCD.h" />
-    <ClInclude Include="ftd2xx.h" />
     <ClInclude Include="General.h" />
     <ClInclude Include="HitachiLow.h" />
     <ClInclude Include="LCDHitachi.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ftdibus.cat" />
-    <None Include="ftdibus.inf" />
-    <None Include="ftdiport.cat" />
-    <None Include="ftdiport.inf" />
-    <None Include="i386\ftbusui.dll" />
-    <None Include="i386\ftcserco.dll" />
-    <None Include="i386\ftd2xx.dll" />
-    <None Include="i386\ftdibus.sys" />
-    <None Include="i386\ftlang.dll" />
-    <None Include="i386\ftser2k.sys" />
-    <None Include="i386\ftserui2.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="i386\ftd2xx.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
