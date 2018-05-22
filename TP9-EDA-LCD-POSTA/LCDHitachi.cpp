@@ -95,7 +95,7 @@ bool LCDHitachi::lcdClearToEOL()
 		bool validation= true;
 		for (int i = cadd; (i <= ELEMENTOS_TOTALES_AJUSTADO) && (validation); i++)	//For desde el address actual hasta la ultima posicion
 		{
-			validation = sendData(CLEAR_CHAR, RS_WRITE); 
+			validation = sendData(CLEAR_CHAR, DR); 
 		}
 		if (validation) //Solo vuelvo al address counter original si se enviaron todos los chars correctamente
 		{
@@ -139,16 +139,19 @@ Chequea que el string no sea mayor a 32 caracteres, si lo es se adapta. Luego im
 basicLCD& LCDHitachi::operator<<(const unsigned char* c)	//Aca asumo groseramente que lo unico que me pueden mandar son asciis
 {
 	string recieved = (const char *) c;	//Lo hago un string por que los arreglos me ponen triste :(
-	size_t stringIndicator = 0;	//NOse si poner size_t me resuelve algo
-	size_t stringSize = recieved.size();
+	int stringIndicator = 0;	//NOse si poner size_t me resuelve algo
+	int stringSize = (int) recieved.size();
 	if (stringSize > ELEMENTOS_TOTALES)	//Chequeo si el string tiene mas de 32 caracteres
 	{
-		stringIndicator = stringSize - ELEMENTOS_TOTALES;	//Si tiene mas de 32 utilizo un indice corrido, sera el tamano del string menos 32(ultimos 32 caracteres)	
+		stringIndicator = stringSize - ELEMENTOS_TOTALES + cadd;	//Si tiene mas de 32 utilizo un indice corrido, sera el tamano del string menos 32(ultimos 32 caracteres)	
 	}
-	for (; cadd < ELEMENTOS_TOTALES && (stringIndicator <= stringSize); cadd++, stringIndicator++)	//Imprimo los caracteres hasta que se acabe el string o el lugar en el lcd, no hay problema en modificar directamente el cadd
+	for (; cadd < ELEMENTOS_TOTALES && (stringIndicator <= stringSize-1); stringIndicator++)	//Imprimo los caracteres hasta que se acabe el string o el lugar en el lcd, no hay problema en modificar directamente el cadd
 	{
 		unsigned char infotoSend = c[stringIndicator];
-		sendData(infotoSend, RS_WRITE);
+		sendData(infotoSend, DR);
+		cadd++;
+		lcdUpdateCursor();
+		Sleep(100);
 	}
 	return *this;
 }
@@ -217,7 +220,7 @@ Ahora chequeo no estar en la primera posicion
 */
 bool LCDHitachi::lcdMoveCursorLeft()
 {
-	if (cadd > 0)
+	if (cadd > 1)
 	{
 		cadd--;
 		lcdUpdateCursor();
