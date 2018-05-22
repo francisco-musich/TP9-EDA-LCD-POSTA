@@ -93,7 +93,7 @@ bool LCDHitachi::lcdClearToEOL()
 	if (cadd < ELEMENTOS_TOTALES_AJUSTADO)	//Si el address es menor a 32 va borrando
 	{
 		bool validation= true;
-		for (int i = cadd; (i <= ELEMENTOS_TOTALES_AJUSTADO) && (validation); i++)	//For desde el address actual hasta la ultima posicion
+		for (int i = cadd; (i%17!=0) && (validation); i++)	//For desde el address actual hasta la ultima posicion
 		{
 			validation = sendData(CLEAR_CHAR, DR); 
 		}
@@ -138,20 +138,27 @@ Chequea que el string no sea mayor a 32 caracteres, si lo es se adapta. Luego im
 */
 basicLCD& LCDHitachi::operator<<(const unsigned char* c)	//Aca asumo groseramente que lo unico que me pueden mandar son asciis
 {
-	string recieved = (const char *) c;	//Lo hago un string por que los arreglos me ponen triste :(
-	int stringIndicator = 0;	//NOse si poner size_t me resuelve algo
-	int stringSize = (int) recieved.size();
-	if (stringSize > ELEMENTOS_TOTALES)	//Chequeo si el string tiene mas de 32 caracteres
+	if (cadd <= ELEMENTOS_TOTALES_AJUSTADO)
 	{
-		stringIndicator = stringSize - ELEMENTOS_TOTALES + cadd;	//Si tiene mas de 32 utilizo un indice corrido, sera el tamano del string menos 32(ultimos 32 caracteres)	
+		string recieved = (const char *)c;	//Lo hago un string por que los arreglos me ponen triste :(
+		int stringIndicator = 0;	//NOse si poner size_t me resuelve algo
+		int stringSize = (int)recieved.size();
+		if (stringSize > ELEMENTOS_TOTALES)	//Chequeo si el string tiene mas de 32 caracteres
+		{
+			stringIndicator = stringSize - ELEMENTOS_TOTALES + cadd;	//Si tiene mas de 32 utilizo un indice corrido, sera el tamano del string menos 32(ultimos 32 caracteres)	
+		}
+		for (; cadd < ELEMENTOS_TOTALES && (stringIndicator <= stringSize - 1); stringIndicator++)	//Imprimo los caracteres hasta que se acabe el string o el lugar en el lcd, no hay problema en modificar directamente el cadd
+		{
+			unsigned char infotoSend = c[stringIndicator];
+			sendData(infotoSend, DR);
+			cadd++;
+			lcdUpdateCursor();
+			Sleep(100);
+		}
 	}
-	for (; cadd < ELEMENTOS_TOTALES && (stringIndicator <= stringSize-1); stringIndicator++)	//Imprimo los caracteres hasta que se acabe el string o el lugar en el lcd, no hay problema en modificar directamente el cadd
+	else
 	{
-		unsigned char infotoSend = c[stringIndicator];
-		sendData(infotoSend, DR);
-		cadd++;
-		lcdUpdateCursor();
-		Sleep(100);
+		cout << "Cursor fuera de rango (<<string)" << endl;
 	}
 	return *this;
 }
