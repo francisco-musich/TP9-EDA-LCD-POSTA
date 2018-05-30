@@ -4,36 +4,44 @@
 FuncionesGenerales::FuncionesGenerales(LCDHitachi& lcd_)
 {
 	LCD = &lcd_;
+	this->Ptimer = new Timer;
 }
 
 
 FuncionesGenerales::~FuncionesGenerales()
 {
+	delete Ptimer;
 }
 
 
 void FuncionesGenerales::marquesina(string str, int row)
 {
-	string blankSpace("                ");   //Espacio LCD sin nada bien tumbero!!!
-	str = blankSpace + str + blankSpace;
-	int sizeStr = str.size();
+	Ptimer->stop();
 
-	unsigned char * pdm = (unsigned char *)str.c_str();
-
-
-	if(j <= (sizeStr-16))
+	if (Ptimer->getTime() > sleepTimer)
 	{
-		if(!row)
-			LCD->lcdSetCursorPosition(pos1);
-		else
-			LCD->lcdSetCursorPosition(pos2);
+		string blankSpace("                ");   //Espacio LCD sin nada bien tumbero!!!
+		str = blankSpace + str + blankSpace;
+		int sizeStr = str.size();
 
-		for (int i = j; i < (16+j); i++)
+		unsigned char * pdm = (unsigned char *)str.c_str();
+
+
+		if (j <= (sizeStr - 16))
 		{
-			*LCD << str[i];
+			if (!row)
+				LCD->lcdSetCursorPosition(pos1);
+			else
+				LCD->lcdSetCursorPosition(pos2);
+
+			for (int i = j; i < (16 + j); i++)
+			{
+				*LCD << str[i];
+			}
+			j++;
 		}
-		j++;
 	}
+	Ptimer->start();
 }
 
 

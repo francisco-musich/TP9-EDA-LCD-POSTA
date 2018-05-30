@@ -1,6 +1,7 @@
 #pragma once
 
 #include "LCDHitachi.h"
+#include "Timer.h"
 #include <string>
 #include <windows.h>
 
@@ -14,6 +15,7 @@ public:
 	FuncionesGenerales(LCDHitachi& lcd_);
 	~FuncionesGenerales();
 	basicLCD * LCD;
+	Timer * Ptimer;
 
 	void marquesina(string str, int row);
 	void imprimirPorcentaje(char porcentaje);

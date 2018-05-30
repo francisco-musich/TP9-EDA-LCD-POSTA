@@ -170,6 +170,7 @@
     <ClCompile Include="HitachiLow.cpp" />
     <ClCompile Include="LCDHitachi.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basicLCD.h" />
@@ -178,6 +179,7 @@
     <ClInclude Include="General.h" />
     <ClInclude Include="HitachiLow.h" />
     <ClInclude Include="LCDHitachi.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
