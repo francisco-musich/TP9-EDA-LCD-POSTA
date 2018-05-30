@@ -1,8 +1,18 @@
 #include "FuncionesGenerales.h"
 
 
+FuncionesGenerales::FuncionesGenerales(LCDHitachi& lcd_)
+{
+	LCD = &lcd_;
+}
 
-void marquesina(string str, LCDHitachi& lcd, int row)
+
+FuncionesGenerales::~FuncionesGenerales()
+{
+}
+
+
+void FuncionesGenerales::marquesina(string str, int row)
 {
 	string blankSpace("                ");   //Espacio LCD sin nada bien tumbero!!!
 	str = blankSpace + str + blankSpace;
@@ -10,22 +20,24 @@ void marquesina(string str, LCDHitachi& lcd, int row)
 
 	unsigned char * pdm = (unsigned char *)str.c_str();
 
-	for (int j = 0; j <= (sizeStr-16); j++)
+
+	if(j <= (sizeStr-16))
 	{
 		if(!row)
-			lcd.lcdSetCursorPosition(pos1);
+			LCD->lcdSetCursorPosition(pos1);
 		else
-			lcd.lcdSetCursorPosition(pos2);
+			LCD->lcdSetCursorPosition(pos2);
 
 		for (int i = j; i < (16+j); i++)
 		{
-			lcd << str[i];
+			*LCD << str[i];
 		}
-		Sleep(100);
+		j++;
 	}
 }
 
-void imprimirPorcentaje(char porcentaje, LCDHitachi& lcd)
+
+void FuncionesGenerales::imprimirPorcentaje(char porcentaje)
 {
 	string blankSpace = "      ";
 	string simpleBlank = " ";
@@ -34,18 +46,42 @@ void imprimirPorcentaje(char porcentaje, LCDHitachi& lcd)
 
 	unsigned char * pdm = (unsigned char *)str.c_str();
 
-	if (lcd.lcdSetCursorPosition(pos2))
+	if (LCD->lcdSetCursorPosition(pos2))
 	{
-		lcd << pdm;
+		*LCD << pdm;
 	}
 }
 
-void imprimirFecha(string str, LCDHitachi& lcd)
+
+void FuncionesGenerales::imprimirFecha(string str)
 {
 	unsigned char * pdm = (unsigned char *)str.c_str();
 
-	if (lcd.lcdSetCursorPosition(pos1))
+	if (LCD->lcdSetCursorPosition(pos1))
 	{
-		lcd << pdm;
+		*LCD << pdm;
 	}
 }
+
+
+//void FuncionesGenerales::marquesina(string str, int row)
+//{
+//	string blankSpace("                ");   //Espacio LCD sin nada bien tumbero!!!
+//	str = blankSpace + str + blankSpace;
+//	int sizeStr = str.size();
+//
+//	unsigned char * pdm = (unsigned char *)str.c_str();
+//
+//	for (int j = 0; j <= (sizeStr - 16); j++)
+//	{
+//		if (!row)
+//			LCD->lcdSetCursorPosition(pos1);
+//		else
+//			LCD->lcdSetCursorPosition(pos2);
+//
+//		for (int i = j; i < (16 + j); i++)
+//		{
+//			*LCD << str[i];
+//		}
+//	}
+//}
