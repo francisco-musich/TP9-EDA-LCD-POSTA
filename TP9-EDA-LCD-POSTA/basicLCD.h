@@ -14,8 +14,7 @@ class
 basicLCD
 {
 public:
-/*=================================================
-====
+/*=====================================================
 * Name: basicLCD
 * Entra: -
 * Resulta: Constructor de la clase. Inicializa el L
@@ -23,22 +22,18 @@ CD y deja
 *          todo listo comenzar a utilizarlo.
 *
 * cadd =1 (cursor address) (ver NOTA 1)
-*==================================================
-===*/
+*=====================================================*/
 basicLCD();
-/*=================================================
-====
+/*=====================================================
 * Name: ~basicLCD
 * Entra: -
 * Resulta: Destructor de la clase. Libera cualquier
 recurso
 *          que se hubiera tomado de forma de evitar
 *          "resources leak".
-*==================================================
-===*/
+*=====================================================*/
 ~basicLCD();
-/*=================================================
-====
+/*=====================================================
 * Name: lcdInitOk
 * Entra: -
 * Resulta: No genera ningún cambio en el display.
@@ -47,11 +42,9 @@ cializó
 * correctamente (el constructor no tuvo errores) o
 “false
 * en caso contrario.
-*==================================================
-===*/
+*=====================================================*/
 virtual bool lcdInitOk() = 0;
-/*=================================================
-====
+/*=====================================================
 * Name: lcdGetError
 * Entra: -
 * Resulta: No genera ningún cambio en el display.
@@ -60,11 +53,9 @@ rror.
 * Caso contrario devuelve en su nombre el error que
 se
 * haya producido trabajando con la librería ftd2xx
-*==================================================
-===*/
+*=====================================================*/
 virtual FT_STATUS lcdGetError() = 0;
-/*=================================================
-====
+/*=====================================================
 * Name: lcdClear
 * Entra: -
 * Resulta: Borra el display y el cursor va a HOME
@@ -72,11 +63,9 @@ virtual FT_STATUS lcdGetError() = 0;
 * Devuelve en su nombre “true” si fue satisfactoria
 “false”
 * en caso contrario.
-*==================================================
-===*/
+*=====================================================*/
 virtual bool lcdClear() = 0;
-/*=================================================
-====
+/*=====================================================
 * Name: lcdClearToEOL
 * Entra: -
 * Resulta: Borra el display desde la posición actua
@@ -86,11 +75,9 @@ l
 * Devuelve en su nombre “true” si fue satisfactoria
 “false”
 * en caso contrario.
-*==================================================
-===*/
+*=====================================================*/
 virtual bool lcdClearToEOL() = 0;
-/*=================================================
-====
+/*=====================================================
 * Name: operator<<()
 * Entra: Un carácter
 * Resulta: Pone el carácter en la posición actual
@@ -105,11 +92,9 @@ D que permite
 * encascar la función:
 *     basicLCD lcd;
 *     lcd << ‘a’ << ‘b’ << ‘c’;
-*==================================================
-===*/
+*=====================================================*/
 virtual basicLCD& operator<<(const unsigned char c) = 0;
-/*=================================================
-====
+/*=====================================================
 * Name: operator<<()
 * Entra: Una cadena de caracteres NULL terminated
 * Resulta: imprime la cadena de caracteres en la po
@@ -126,11 +111,9 @@ D que permite
 * encascar la función:
 *     basicLCD lcd;
 *     lcd << “Hola” << “ “ << “Mundo”;
-*==================================================
-===*/
+*=====================================================*/
 virtual basicLCD& operator<<(const unsigned char * c) = 0;
-/*=================================================
-====
+/*=====================================================
 * Name: lcdMoveCursorUp
 *
 * Entra: -
@@ -141,11 +124,9 @@ splay sin
 * Devuelve en su nombre “true” si fue satisfactoria
 “false”
 * en caso contrario.
-*==================================================
-===*/
+*=====================================================*/
 virtual bool lcdMoveCursorUp() = 0;
-/*=================================================
-====
+/*=====================================================
 * Name: lcdMoveCursorDown
 *
 * Entra: -
@@ -156,11 +137,9 @@ splay sin
 * Devuelve en su nombre “true” si fue satisfactoria
 “false”
 * en caso contrario.
-*==================================================
-===*/
+*=====================================================*/
 virtual bool lcdMoveCursorDown() = 0;
-/*=================================================
-====
+/*=====================================================
 * Name: lcdMoveCursorRight
 *
 * Entra: -
@@ -169,11 +148,9 @@ virtual bool lcdMoveCursorDown() = 0;
 * Devuelve en su nombre “true” si fue satisfactoria
 “false”
 * en caso contrario.
-*==================================================
-===*/
+*=====================================================*/
 virtual bool lcdMoveCursorRight() = 0;
-/*=================================================
-====
+/*=====================================================
 * Name: lcdMoveCursorLeft
 *
 * Entra: -
@@ -182,11 +159,9 @@ virtual bool lcdMoveCursorRight() = 0;
 * Devuelve en su nombre “true” si fue satisfactoria
 “false”
 * en caso contrario.
-*==================================================
-===*/
+*=====================================================*/
 virtual bool lcdMoveCursorLeft() = 0;
-/*=================================================
-====
+/*=====================================================
 * Name: lcdSetCursorPosition
 * Entra: Recibe una estructura tipo cursorPosition
 * Resulta: Posiciona el cursor en la posición dada
@@ -198,27 +173,23 @@ nada).
 * Devuelve en su nombre “true” si fue satisfactoria
 “false”
 * en caso contrario.
-*==================================================
-===*/
+*=====================================================*/
 virtual bool lcdSetCursorPosition(const cursorPosition pos) = 0;
-/*=================================================
-====
+/*=====================================================
 * Name: lcdGetCursorPosition
 * Entra: -
 * Resulta: Devuelve la posición actual del cursor.
 * cadd = No se altera
 *
 * Devuelve una estructura tipo cursorPosition
-*==================================================
-===*/
+*=====================================================*/
 virtual cursorPosition lcdGetCursorPosition() = 0;
 
 
 protected:
 
 
-/*=================================================
-====
+/*=====================================================
 * Nota 1: cadd (cursor address) es una variable
 * que contiene la dirección actual del cursor en el
 * display+1. Esta variable es necesaria pues no pod
@@ -232,11 +203,9 @@ ion()
 * conocida y por lo tanto sincronizarlo con cadd.
 * El constructor la inicializa y asegura su sincron
 ismo.
-*==================================================
-===*/
+*=====================================================*/
 int cadd;
-/*=================================================
-====
+/*=====================================================
 * Name: lcdUpdateCursor ver NOTA 2
 * Entra: -
 * Resulta: Posiciona el cursor del display en la po
@@ -254,7 +223,6 @@ valor
 ansferido
 * al cursor del display para poder sincronizar ambo
 s.
-*==================================================
-===*/
+*=====================================================*/
 virtual void lcdUpdateCursor() = 0;
 };

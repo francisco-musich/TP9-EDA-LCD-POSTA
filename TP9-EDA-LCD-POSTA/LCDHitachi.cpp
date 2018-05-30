@@ -121,7 +121,7 @@ Chequea que no se este en la ultima posicion. Envia el caracter deseado al lcd, 
 */
 basicLCD& LCDHitachi::operator<<(const unsigned char c)	//Nose que tendria que ir devolviendo
 {
-	if (cadd < ELEMENTOS_TOTALES_AJUSTADO)	//si estoy en los parametros imprimo
+	if ((cadd-1) <= ELEMENTOS_TOTALES/*_AJUSTADO*/)	//si estoy en los parametros imprimo
 	{
 		sendData(c, DR);
 		cadd++;	//el address counter se actualiza solo
@@ -153,7 +153,6 @@ basicLCD& LCDHitachi::operator<<(const unsigned char* c)	//Aca asumo groserament
 			sendData(infotoSend, DR);
 			cadd++;
 			lcdUpdateCursor();
-			Sleep(100);
 		}
 	}
 	else
@@ -249,7 +248,7 @@ bool LCDHitachi::lcdSetCursorPosition(const cursorPosition pos)
 {
 	if (pos.row < FILAS && pos.column < COLUMNA)	//validacion
 	{
-		cadd = (pos.row) * COLUMNA + pos.column;	//creacion de cadd con pos
+		cadd = ((pos.row) * COLUMNA + pos.column)+1;	//creacion de cadd con pos
 		lcdUpdateCursor();
 		return true;
 	}
@@ -273,8 +272,11 @@ cursorPosition LCDHitachi::lcdGetCursorPosition()
 
 void LCDHitachi::lcdUpdateCursor()
 {
-	unsigned char newAddCount = (getADD(cadd-1)) | ADDRESS_COUNT_SET_MASK; //transformacion hexa de cadd
-	sendData(newAddCount, IR);	//setteo nuevo address counter
+	if ((cadd-1) <= ELEMENTOS_TOTALES)
+	{
+		unsigned char newAddCount = (getADD(cadd - 1)) | ADDRESS_COUNT_SET_MASK; //transformacion hexa de cadd
+		sendData(newAddCount, IR);	//setteo nuevo address counter
+	}
 }
 
 
